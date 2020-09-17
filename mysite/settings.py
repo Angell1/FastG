@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,6 +29,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+AUTH_USER_MODEL = 'users.UserProfile'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.users.apps.UserConfig'
     # 'apps.app1.apps.App1Config',
     # 'apps.app2.apps.App2Config',
     # 'app1',
@@ -79,8 +83,13 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': "fastg",
+        'USER': 'root',
+        'PASSWORD': "123456",
+        'HOST': "127.0.0.1",
+        'OPTIONS': {'init_command': 'SET default_storage_engine=INNODB;'
+                    }
     }
 }
 
@@ -102,6 +111,34 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# # drf框架的配置信息
+# REST_FRAMEWORK = {
+#     # 设置所有接口都需要被验证
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         #’rest_framework.permissions.IsAuthenticatedOrReadOnly’,
+#     ),
+#     # 用户登陆认证方式
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+#         #’rest_framework.authentication.SessionAuthentication’,
+#         #’rest_framework.authentication.BasicAuthentication’,
+#     ),
+# }
+#
+# # jwt载荷中的有效期设置
+# JWT_AUTH = {
+#     #token 有效期
+#     'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=8),
+#     'JWT_ALLOW_REFRESH': True,
+#      #续期有效期（该设置可在24小时内带未失效的token 进行续期）
+#     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(hours=24),
+#     # 自定义返回格式，需要手工创建
+#     'JWT_RESPONSE_PAYLOAD_HANDLER': 'Users.utils.jwt_response_payload_handler',
+# }
+#
+#
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

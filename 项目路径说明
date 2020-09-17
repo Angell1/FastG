@@ -1,0 +1,14 @@
+Project    #目录
+├── appconfig                                       #目录：项目配置文件目录
+├── apps                                            #目录：app目录
+├── docker                                          #目录：docker部署相关配置文件
+├── extra_app	                                    #目录：未来会添加
+├── logs  	                                        #目录：日志
+├── util                                            #目录:自写库
+├── mysite                                          #目录
+    └── manage.py                                   #文件
+    └── __init__.py                                 #文件
+    └── setting.py                                  #文件
+    └── urls.py                                     #文件
+    └── wsgi.py                                     #文件
+├── requirements.txt                                #文件
