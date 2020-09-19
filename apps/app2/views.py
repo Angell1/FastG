@@ -3,7 +3,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import render,HttpResponse,redirect
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
-
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework import authentication
+from rest_framework import mixins,viewsets
+from rest_framework_jwt.utils import jwt_decode_handler
 
 class CustomPaginator(Paginator):
     def __init__(self, current_page, max_pager_num, *args, **kwargs):
@@ -58,15 +61,17 @@ read()
 
 
 # 首页
-class Frontindex(APIView):
-    def dispatch(self, request, *args, **kwargs):
-        """
-        请求到来之后，都要执行dispatch方法，dispatch方法根据请求方式不同触发 get/post/put等方法
+class IndexViewset(APIView):
 
-        注意：APIView中的dispatch方法有好多好多的功能
-        """
-        return super().dispatch(request, *args, **kwargs)
-
+    authentication_classes = (JSONWebTokenAuthentication)
+    # def dispatch(self, request, *args, **kwargs):
+    #     """
+    #     请求到来之后，都要执行dispatch方法，dispatch方法根据请求方式不同触发 get/post/put等方法
+    #
+    #     注意：APIView中的dispatch方法有好多好多的功能
+    #     """
+    #     return super().dispatch(request, *args, **kwargs)
+    #
     def get(self, request, *args, **kwargs):
 
         return render(request, 'app2/frontindex.html')
@@ -75,7 +80,8 @@ class Frontindex(APIView):
         return Response('POST请求，响应内容')
 
 # 主页面
-class IndexView(APIView):
+class Frontindex(APIView):
+    authentication_classes = (JSONWebTokenAuthentication, authentication.SessionAuthentication)
     def dispatch(self, request, *args, **kwargs):
         """
         请求到来之后，都要执行dispatch方法，dispatch方法根据请求方式不同触发 get/post/put等方法
@@ -85,6 +91,9 @@ class IndexView(APIView):
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
+        print("验证后的token：",bytes.decode(request.auth))
+        token_user = jwt_decode_handler(bytes.decode(request.auth))
+        print(token_user['user_id'])
         current_page = request.GET.get("p",0)
         current_page = int(current_page)  # 字符--〉数字
         listdata = []

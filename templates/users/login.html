@@ -7,7 +7,8 @@
 
 </head>
 <body>
-    <form class="form-signin" style="width: 100%;max-width: 420px;padding: 15px;margin: auto;" action="/users/login/" method="post" >
+    <form class="form-signin" style="width: 100%;max-width: 420px;padding: 15px;margin: auto;" action="/users/login/" method="post" >‘
+        {% csrf_token %}
       <div class="text-center mb-4">
         <img class="mb-4" src="/docs/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
         <h1 class="h3 mb-3 font-weight-normal">Floating labels</h1>

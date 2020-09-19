@@ -13,5 +13,4 @@ urlpatterns = [
     # 定义注销URL
     path(r'logout/', Logout.as_view()),
 
-
 ]

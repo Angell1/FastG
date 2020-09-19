@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls import url
+from rest_framework_jwt.views import obtain_jwt_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +26,6 @@ urlpatterns = [
     path('app1/', include('apps.app1.urls',namespace='app1')),
     #
     path('app2/', include('apps.app2.urls',namespace= 'app2')),
+
+    url(r'^login/', obtain_jwt_token)
 ]

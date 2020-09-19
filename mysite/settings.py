@@ -31,20 +31,29 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'users.UserProfile'
 
+AUTHENTICATION_BACKENDS = (
+    #选择自写的验证类
+    # 'users.views.CustomBackend',
+    #选择django自己的验证类
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+
+
 # Application definition
 
 INSTALLED_APPS = [
     'rest_framework',
+    'rest_framework.authtoken',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.users.apps.UserConfig'
-    # 'apps.app1.apps.App1Config',
-    # 'apps.app2.apps.App2Config',
-    # 'app1',
+    'apps.users.apps.UserConfig',
+    'apps.app1.apps.App1Config',
+    'apps.app2.apps.App2Config'
 ]
 
 MIDDLEWARE = [
@@ -112,32 +121,28 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# # drf框架的配置信息
-# REST_FRAMEWORK = {
-#     # 设置所有接口都需要被验证
-#     'DEFAULT_PERMISSION_CLASSES': (
-#         #’rest_framework.permissions.IsAuthenticatedOrReadOnly’,
-#     ),
-#     # 用户登陆认证方式
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-#         #’rest_framework.authentication.SessionAuthentication’,
-#         #’rest_framework.authentication.BasicAuthentication’,
-#     ),
-# }
-#
-# # jwt载荷中的有效期设置
-# JWT_AUTH = {
-#     #token 有效期
-#     'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=8),
-#     'JWT_ALLOW_REFRESH': True,
-#      #续期有效期（该设置可在24小时内带未失效的token 进行续期）
-#     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(hours=24),
-#     # 自定义返回格式，需要手工创建
-#     'JWT_RESPONSE_PAYLOAD_HANDLER': 'Users.utils.jwt_response_payload_handler',
-# }
-#
-#
+# drf框架的配置信息
+REST_FRAMEWORK = {
+    # 设置所有接口都需要被验证
+    'DEFAULT_PERMISSION_CLASSES': (
+        #’rest_framework.permissions.IsAuthenticatedOrReadOnly’,
+    ),
+    # 用户登陆认证方式
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        #’rest_framework.authentication.SessionAuthentication’,
+        #’rest_framework.authentication.BasicAuthentication’,
+    ),
+}
+
+# jwt载荷中的有效期设置
+JWT_AUTH = {
+    #token 有效期
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+}
+
+
 
 
 # Internationalization
