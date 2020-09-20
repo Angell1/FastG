@@ -61,39 +61,31 @@ read()
 
 
 # 首页
-class IndexViewset(APIView):
+class Frontindex(APIView):
+    def dispatch(self, request, *args, **kwargs):
 
-    authentication_classes = (JSONWebTokenAuthentication)
-    # def dispatch(self, request, *args, **kwargs):
-    #     """
-    #     请求到来之后，都要执行dispatch方法，dispatch方法根据请求方式不同触发 get/post/put等方法
-    #
-    #     注意：APIView中的dispatch方法有好多好多的功能
-    #     """
-    #     return super().dispatch(request, *args, **kwargs)
-    #
+        return super().dispatch(request, *args, **kwargs)
+
     def get(self, request, *args, **kwargs):
 
         return render(request, 'app2/frontindex.html')
 
-    def post(self, request, *args, **kwargs):
-        return Response('POST请求，响应内容')
 
 # 主页面
-class Frontindex(APIView):
+class Index(APIView):
+    #token验证:存在
     authentication_classes = (JSONWebTokenAuthentication, authentication.SessionAuthentication)
     def dispatch(self, request, *args, **kwargs):
-        """
-        请求到来之后，都要执行dispatch方法，dispatch方法根据请求方式不同触发 get/post/put等方法
-
-        注意：APIView中的dispatch方法有好多好多的功能
-        """
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-        print("验证后的token：",bytes.decode(request.auth))
-        token_user = jwt_decode_handler(bytes.decode(request.auth))
-        print(token_user['user_id'])
+        print(request.COOKIES)
+        print(request.auth)
+        if request.auth:
+            print("验证后的token：",bytes.decode(request.auth))
+            token_user = jwt_decode_handler(bytes.decode(request.auth))
+            print(token_user)
+            print(token_user['user_id'])
         current_page = request.GET.get("p",0)
         current_page = int(current_page)  # 字符--〉数字
         listdata = []
@@ -108,22 +100,12 @@ class Frontindex(APIView):
         # page:     page对象
         try:
             posts = paginator.page(current_page)
-            # has_next              是否有下一页
-            # next_page_number      下一页页码
-            # has_previous          是否有上一页
-            # previous_page_number  上一页页码
-            # object_list           分页之后的数据列表
-            # number                当前页
-            # paginator             paginator对象
         except PageNotAnInteger:
             posts = paginator.page(1)
         except EmptyPage:
             posts = paginator.page(paginator.num_pages)
-        # print(posts.object_list)
         return render(request, 'app2/index1.html', locals())
 
-    def post(self, request, *args, **kwargs):
-        return Response('POST请求，响应内容')
 
 
 

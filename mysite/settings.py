@@ -33,9 +33,9 @@ AUTH_USER_MODEL = 'users.UserProfile'
 
 AUTHENTICATION_BACKENDS = (
     #选择自写的验证类
-    # 'users.views.CustomBackend',
+    'users.views.CustomBackend',
     #选择django自己的验证类
-    'django.contrib.auth.backends.ModelBackend',
+    # 'django.contrib.auth.backends.ModelBackend',
 )
 
 
@@ -51,9 +51,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # "users",
     'apps.users.apps.UserConfig',
-    'apps.app1.apps.App1Config',
-    'apps.app2.apps.App2Config'
+    # 'apps.app1.apps.App1Config',
+    # 'apps.app2.apps.App2Config',
+    'captcha',
 ]
 
 MIDDLEWARE = [

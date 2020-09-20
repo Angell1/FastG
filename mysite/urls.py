@@ -27,5 +27,5 @@ urlpatterns = [
     #
     path('app2/', include('apps.app2.urls',namespace= 'app2')),
 
-    url(r'^login/', obtain_jwt_token)
+    # url(r'^login/', obtain_jwt_token)
 ]
